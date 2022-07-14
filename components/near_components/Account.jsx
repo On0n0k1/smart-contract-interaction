@@ -1,5 +1,7 @@
 // import get_account from './test/connect';
-import get_account from "./services/get_account";
+import get_account from "../near_functions/get_account";
+
+import History from './History';
 
 import { useEffect, useState } from 'react';
 
@@ -14,6 +16,10 @@ import { useEffect, useState } from 'react';
 //  storage_usage: 182
 // }
 
+// History will be moved to it's own component
+//
+// Represents basic account information.
+// If account doesn't exist shows an error message.
 export default function AccountInfo(props){
     const account_name = props.account;
     const network = props.network;
@@ -24,11 +30,15 @@ export default function AccountInfo(props){
         get_account(account_name, network)
             .then(
                 awaited_account => setAccount(awaited_account)
-        );
+            );
     }, []);
 
     if (account == null){
         return <p>Loading...</p>
+    }
+
+    if (account.error === true){
+        return <p>Error: {account.exception.type}</p>
     }
 
     return (
@@ -42,6 +52,7 @@ export default function AccountInfo(props){
             <p>Locked: {account.locked}</p>
             <p>Storage Paid At: {account.storage_paid_at}</p>
             <p>Storage Usage: {account.storage_usage}</p>
+            <History />
         </div>
     );
 }

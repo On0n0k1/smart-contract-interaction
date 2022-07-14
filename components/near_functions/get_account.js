@@ -11,6 +11,17 @@ const { connect, keyStores } = require("near-api-js");
 //  storage_usage: 182
 // }
 
+// Connects to near and returns basic information about given account.
+//
+// If an error happens when connecting. Returns an object like this:
+//
+// {
+//     error: bool,
+//     exception: String,
+// }
+//
+// Where error is always true, and exception is the error type.
+//
 export default function get_account(account_name, network){
     // contract ID or account ID you want to find transactions details for
     // const CONTRACT_ID = "relayer.ropsten.testnet";
@@ -38,11 +49,23 @@ export default function get_account(account_name, network){
     async function getAccount(accountId) {
         const near = await connect(config);
 
-        const response = await near.connection.provider.query({
-            request_type: "view_account",
-            finality: "final",
-            account_id: accountId,
-        });
+        let response = false;
+
+        try{
+            response = await near.connection.provider.query({
+                request_type: "view_account",
+                finality: "final",
+                account_id: accountId,
+            });
+
+        } catch (error) {
+            console.log(JSON.stringify(error));
+
+            response = {
+                error: true,
+                exception: error,
+            }
+        }
 
         console.log(response);
 

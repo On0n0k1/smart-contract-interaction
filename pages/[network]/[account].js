@@ -12,8 +12,8 @@ export default function Account() {
 
     return (
         <div>
-            <p>Network is {network}</p>
-            <p>Account is {account}</p>
+            {/* <p>Network is {network}</p>
+            <p>Account is {account}</p> */}
             <AccountInfo network={network} account={account}/>
         </div>
     )
