@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 // import Test from '../../components/near-components/test.jsx';
-import AccountInfo from '../../components/near_components/Account.jsx';
+import AccountInfo from '../../components/near_components/Account/Account.jsx';
 
 
 // The path to this page is /[network]/[account]

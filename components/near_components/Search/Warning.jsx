@@ -6,6 +6,7 @@ export default function Warning(props){
     if (message == "") {
         return (<p className="hidden"></p>);
     }
+
     return (
     <p className="
         text-red-500
