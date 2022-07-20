@@ -1,5 +1,5 @@
-
-
+// Used in Search component.
+// If an error exists, it will become visible as a warning message.
 export default function Warning(props){
     var message = props.message;
 

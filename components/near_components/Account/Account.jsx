@@ -1,7 +1,5 @@
-// import get_account from './test/connect';
-import get_account from "../../near_functions/get_account";
-
-import History from '../History';
+// import get_account from "../../near_functions/get_account";
+import get_account from '../../../lib/near_functions/get_account.js';
 
 import { useEffect, useState } from 'react';
 
@@ -17,23 +15,6 @@ import { useEffect, useState } from 'react';
 // }
 
 function Detail(props){
-
-    // if (props.line === true) {
-    //     return (
-    //         <div className={props.className}>
-    //             <div className='
-    //                 flex-col mx-auto
-    //                 border border-solid border-gray-300 rounded-md
-    //                 px-4 py-2
-    //             '>
-    //                 <h1 className='
-    //                     text-center text-sm text-gray-700 font-bold
-    //                 '>{props.title}:</h1>
-    //                 <p className='text-center'>{props.children}</p>
-    //             </div>
-    //         </div>);
-    // }
-
     return (
         <div className={props.className}>
             <div className='
@@ -96,24 +77,7 @@ export default function AccountInfo(props){
                 h-auto py-10
                 font-sans'
             >
-                {/* <ul className='
-                    font-sans
-                    text-gray-900
-                '> */}
-                {/* <div className='col-span-3'>
-                    <div className='flex-col'>
-                        <h1 className='
-                            text-center text-sm text-gray-700 font-bold
-                        '>Account:</h1>
-                        <p className='
-                            text-center text-2xl
-                            font-sans font-bold
-                            py-4'
-                        >{account_name}</p>
-                    </div> */}
 
-
-                {/* </div> */}
                 <Detail title='Account' className='ml-2 col-span-full sm:col-span-2'>{account_name}</Detail>
 
                 <Detail title='Balance'>{account.amount * Math.pow(0.1, 24)}<b>Ⓝ</b></Detail>

@@ -1,13 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import get_a_transaction from "../near_functions/get_transaction_history";
-import get_transaction_from_hash from '../near_functions/get_transaction_from_hash.js';
-// import get_block_hash from '../near_functions/get_block_hash.js';
-
-function is_promise(value){
-    return (typeof value === 'object' && typeof value.then === 'function');
-}
-
+import get_transaction_hashes from '../../lib/near_functions/get_transaction_hashes.js';
+import get_transaction_from_hash from '../../lib/near_functions/get_transaction_from_hash';
 
 
 // This is just a copy paste of an example for transaction history.
@@ -18,7 +12,6 @@ export default function History(props){
     const contract_id = props.contractId;
     // const first_block_hash = get_block_hash(contract_id);
 
-    // const [loading, setLoading] = useState(undefined);
     const [hash, setHash] = useState({
         empty: true,
         values: [],
@@ -50,40 +43,9 @@ export default function History(props){
         return <p>{tx}</p>;
     }
 
-    // const includeHashes = (new_hashes) => {
-    //     console.log("New Hashes");
-    //     console.log(new_hashes);
-    //     console.log("The length is ", new_hashes.length);
-
-    //     setHash((existingItems) => {
-
-    //         for (let index in new_hashes){
-    //             // console.log(value);
-    //             existingItems.push(new_hashes[index]);
-    //         }
-
-    //         // existingItems = [...existingItems, new_hashes];
-    //         return existingItems;
-    //     });
-    // }
-
     async function load(){
-        // const first_hash = await get_block_hash(contract_id);
-        // setHash(first_hash);
-        let hashes = await get_a_transaction(contract_id);
+        let hashes = await get_transaction_hashes(contract_id);
         hashes = hashes.transactions.map(value => value.transaction_hash);
-            // .map((value) => value.transaction_hash);
-        // ;
-        // const hashes_parsed = hashes_raw.map((value)=> value.transaction_hash );
-
-        // hashes.forEach(value => {
-        //     console.log(value.transaction_hash);
-        //     includeHash(value.transaction_hash);
-        // });
-
-        // includeHashes(hashes);
-
-        // setHash(hashes);
         setHash((_) => {
             return {
                 empty: false,
@@ -95,15 +57,7 @@ export default function History(props){
         console.log(hash);
     }
 
-    // async function new_hash(){
-    //     let result = await get_a_transaction(contract_id);
-    //     console.log("Setting new hash to " + result.prev_hash);
-    //     setHash(result.prev_hash);
-    // }
-
     function testing(){
-        // get_a_transaction(contract_id);
-        // console.log(hash);
         console.log("Counter is ", counter);
         setCounter(counter+1);
     }
@@ -121,8 +75,6 @@ export default function History(props){
 
     return (
         <div>
-            {/* <p>The next hash is {hash}</p> */}
-            {/* <button onClick={new_hash}>Load new Transaction (check console)</button> */}
             <button onClick={testing}>testing</button>
             {render_hashes}
         </div>
