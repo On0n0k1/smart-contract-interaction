@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "near-api-js": "^0.45.1",
     "next": "12.2.0",
+    "pg": "^8.7.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },

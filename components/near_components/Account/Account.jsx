@@ -63,7 +63,7 @@ export default function AccountInfo(props){
     const account_name = props.account;
     const network = props.network;
 
-    let [account, setAccount] = useState(null);
+    let [account, setAccount] = useState("");
 
     useEffect(() => {
         get_account(account_name, network)
@@ -72,7 +72,7 @@ export default function AccountInfo(props){
             );
     }, []);
 
-    if (account == null){
+    if (account == ""){
         return <p>Loading...</p>
     }
 
