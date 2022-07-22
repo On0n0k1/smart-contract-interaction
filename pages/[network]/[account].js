@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import AccountInfo from '../../components/near_components/Account/Account.jsx';
 import History from '../../components/near_components/History.jsx';
 
+// Assets still being implemented.
+import Assets from '../../components/near_components/Assets.jsx';
+
 
 // The path to this page is /[network]/[account]
 // Values for network and account will be picked by router.query
@@ -27,10 +30,10 @@ export default function Account() {
 
     return (
         <div>
-            {/* <p>Network is {network}</p>
-            <p>Account is {account}</p> */}
             <AccountInfo network={network} account={account}/>
-            <History contractId={account}/>
+            <History accountId={account}/>
+            {/* Assets implementation still unfinished */}
+            {/* <Assets accountId={account}/> */}
         </div>
     )
 }

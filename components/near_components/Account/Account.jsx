@@ -65,7 +65,8 @@ export default function AccountInfo(props){
         <div className='
             flex flex-col items-center
             justify-center w-full
-            h-screen bg-gray-100
+            h-auto bg-gray-100
+            py-20
         '>
             <div className='
                 grid

@@ -1,7 +1,8 @@
 import conn from '../../../lib/db';
 
+// Returns Information about a Near account.
 export default async (req, res) => {
-
+    // Only accepts GET requests.
     if (req.method !== 'GET'){
         res.status(404).send("Invalid request type");
         console.log("Invalid request received. Method: ", req.method);
@@ -10,8 +11,27 @@ export default async (req, res) => {
 
     try {
         // console.log("req nom", req);
-        console.log(`GET Request for account ${req.query.accountId}} Received.`);
+        console.log(`GET transaction request for account ${req.query.accountId}} Received.`);
 
+        // const query = `
+        //     SELECT
+        //         *
+        //     FROM
+        //         transaction_actions
+        //     where
+        //         transaction_hash IN
+        //         (
+        //             SELECT
+        //                 transaction_hash
+        //             FROM
+        //                 transactions
+        //             WHERE
+        //                 signer_account_id = '${req.query.accountId}'
+        //             ORDER BY
+        //                 block_timestamp DESC
+        //             LIMIT 100 OFFSET 0
+        //         );
+        // `;
         const query = `
             SELECT
                 transaction_hash
@@ -21,12 +41,13 @@ export default async (req, res) => {
                 signer_account_id = '${req.query.accountId}'
             ORDER BY
                 block_timestamp DESC
-            LIMIT 100 OFFSET 0
-            ;
+            LIMIT 10 OFFSET 0
         `;
 
+        // Make the query and return the result.
         const data = await conn.query(query);
 
+        // The acquired values.
         const result = data.rows;
 
         // console.log(result);
