@@ -24,95 +24,111 @@ export default function History(props){
     },[]);
 
     function Transaction(props){
-        const [transaction, set_transaction] = useState(props.tx);
 
-        // console.log(transaction);
-        get_transaction_from_hash(transaction.transaction_hash, accountId)
-            .then(value => console.log(value));
+
+        function View(props){
+
+            // Check action and returns the type of transaction.
+            function check_action(){
+                if (props.actions[0].FunctionCall !== undefined){
+                    return "Function Call";
+                }
+                if (props.actions[0].Transfer !== undefined) {
+                    return "Transfer";
+                }
+                if (props.actions[0] === "CreateAccount") {
+                    return "Create Account";
+                }
+                if (props.actions[0].AddKey !== undefined) {
+                    return "Add Key";
+                }
+
+                // The following lines were for debugging.
+                // I think all possible types of transactions have been considered above.
+                console.log("Failed in this one");
+                console.log(props.actions[0]);
+
+                return "(Action Type)";
+            }
+
+            return (
+                <div className='p-4 m-2
+                    w-auto rounded-lg shadow-lg
+                    flex flex-row
+                '>
+                    <div className='
+                        w-20 h-20 bg-red-700
+                    '></div>
+                    <div className='
+                        p-2 w-full
+                        grid grid-cols-2 gap-2 justify-between
+                    '>
+                        <span className='
+                            pl-2 text-start font-bold
+                        '>{props.actions ? check_action() : "Action Type"}</span>
+                        <span className='
+                            pr-2 text-center font-bold text-blue-800
+                        '>{props.transfer ? props.transfer : "(Near transferred)"}</span>
+                        <span className='
+                            pl-2 text-start font-bold text-gray-500
+                        '>{props.detail ? props.detail : "Details"}</span>
+                        <span className='
+                            pr-2 text-center font-bold text-red-500
+                        '>{props.target ? props.target : "Target Account"}</span>
+                    </div>
+                </div>
+            );
+        }
+
+        const [tx, set_tx] = useState(undefined);
+
+        useEffect(()=> {
+            // The initial state of the transactions is a promise.
+            // Update the state of the transaction when it is complete.
+
+            props.tx.then(value => {
+                console.log(value);
+                set_tx(value);
+            });
+        }, []);
+
+
+        // console.log("tx");
+        // console.log(tx);
+        if (tx === undefined) {
+            return (<View />);
+        }
+
 
         // return <p>{JSON.stringify(transaction)}</p>
-        return (
-            <div className='p-4 m-2
-                w-auto rounded-lg shadow-lg
-                flex flex-row
-            '>
-                <div className='
-                    w-20 h-20 bg-red-700
-                '></div>
-                <div className='
-                    p-2 w-full
-                    grid grid-cols-2 gap-2 justify-between
-                '>
-                    <span className='
-                        pl-2 text-start font-bold
-                    '>Action Type</span>
-                    <span className='
-                        pr-2 text-center font-bold text-blue-800
-                    '>Transfer</span>
-                    <span className='
-                        pl-2 text-start font-bold text-gray-500
-                    '>Detail</span>
-                    <span className='
-                        pr-2 text-center font-bold text-red-500
-                    '>Target Account</span>
-                </div>
-
-            </div>
-        );
+        // console.log(tx);
+        return <View
+            target={tx.transaction.receiver_id}
+            actions={tx.transaction.actions}
+        />;
     }
 
-
-    // function Transaction(props){
-    //     const [transactions, set_transaction] = useState(props.transaction);
-    //     const [tx, set_tx] = useState(undefined);
-
-    //     useEffect(() => {
-    //         update_transaction();
-    //     }, [transactions]);
-
-    //     async function update_transaction(){
-    //         // console.log("Getting transaction");
-    //         const transaction = await get_transaction_from_hash(tx_hash, accountId);
-    //         // console.log("Transaction acquired");
-    //         console.log(transaction);
-
-    //         set_tx(JSON.stringify(transaction));
-    //     }
-
-    //     return <p>{tx}</p>;
-    // }
 
     async function load(){
         let transaction_list = await get_transactions(accountId);
         // transaction_list = transaction_list.transactions.map(value => value.transaction_hash);
         console.log(transaction_list);
 
+        let values = transaction_list.transactions.map((tx) => { return get_transaction_from_hash(tx.transaction_hash, accountId)});
+
         setTransactions((_) => {
             return {
                 empty: false,
-                values: transaction_list.transactions
+                values: values,
             }
         });
 
-        // console.log(hashes);
-        // console.log(hash);
     }
-
-    // function testing(){
-    //     console.log("Counter is ", counter);
-    //     setCounter(counter+1);
-    // }
 
     if (transactions.empty === true) {
         return <div><p>loading...</p></div>
     }
 
-    // const render_hashes = [];
-    // for (let index = 0; index < counter; index++){
-    //     // console.log("Rendering ", index);
-
-    //     render_hashes.push(<Transaction key={index} hash={hash.values[index]} />)
-    // }
 
     const render_transactions = [];
 

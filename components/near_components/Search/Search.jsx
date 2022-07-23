@@ -24,7 +24,7 @@ export default function Search() {
         var newAccountName = document.getElementById('account').value;
 
         // Logging just for debugging. Will remove later.
-        console.log("Updating Account Name with " + newAccountName);
+        // console.log("Updating Account Name with " + newAccountName);
 
         setAccountName(newAccountName);
     }
@@ -36,7 +36,7 @@ export default function Search() {
         var text = select.options[select.selectedIndex].text;
 
         // Logging just for debugging. Will remove later.
-        console.log("Updating network with " + text);
+        // console.log("Updating network with " + text);
 
         setNetwork(text);
     }
@@ -68,7 +68,7 @@ export default function Search() {
         }
 
         // Logging just for debugging. Will remove later.
-        console.log(warningMessage);
+        // console.log(warningMessage);
     }
 
     // Every time network input changes.
