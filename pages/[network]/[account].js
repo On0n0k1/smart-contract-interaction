@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 // import Test from '../../components/near-components/test.jsx';
 import AccountInfo from '../../components/near_components/Account/Account.jsx';
-import History from '../../components/near_components/History.jsx';
+import History from '../../components/near_components/History/History.jsx';
 
 // Assets still being implemented.
 import Assets from '../../components/near_components/Assets.jsx';
