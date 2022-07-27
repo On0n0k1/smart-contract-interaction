@@ -16,6 +16,9 @@ export default function CreateAccount(props){
     console.log("CreateAccount called");
     console.log(tx);
 
+    const hash = tx.transaction.hash;
+    const receiver_id = tx.transaction.receiver_id;
+
     if (props.batch){
 
         if (props.transaction === undefined) {
@@ -39,18 +42,19 @@ export default function CreateAccount(props){
         return (<Single/>);
     }
 
+    const signer = tx.transaction.signer_id;
 
-    const action = (<TopLeft default={true}>Create Account</TopLeft>);
-    const transfer = undefined;
-    const detail = undefined;
-    const target = (<BottomRight default={true}>{tx.transaction.receiver_id}</BottomRight>)
+    const topLeft = (<TopLeft default={true}>Create Account {tx.transaction.receiver_id}</TopLeft>);
+    const topRight = <TopRight hash={hash}/>;
+    const bottomLeft = <BottomLeft signer={signer}/>;
+    const bottomRight = (<BottomRight timestamp={props.timestamp}/>);
 
     return (
         <Single
-            action={action}
-            transfer={transfer}
-            detail={detail}
-            target={target}
+            topLeft={topLeft}
+            topRight={topRight}
+            bottomLeft={bottomLeft}
+            bottomRight={bottomRight}
         />
     );
 }

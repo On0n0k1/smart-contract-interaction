@@ -30,16 +30,23 @@ function ErrorTransaction(props){
 // Look at transaction and returns
 export default function Transaction(props){
     const [tx, set_tx] = useState(undefined);
+    const [timestamp, set_timestamp] = useState(undefined);
     // console.log("Transaction called");
 
     useEffect(()=> {
         // The initial state of the transactions is a promise.
         // Update the state of the transaction when it is complete.
 
-        props.tx.then(value => {
+        props.tx.transaction.then(value => {
             console.log(value);
             set_tx(value);
         });
+
+        // props.tx.timestamp.then(value => {
+            console.log("Timestamp is " + props.tx.timestamp);
+            console.log(typeof props.tx.timestamp);
+            set_timestamp(props.tx.timestamp);
+        // })
     }, []);
 
     // console.log("Selector called");
@@ -53,20 +60,20 @@ export default function Transaction(props){
     // console.log("Transaction is not undefined");
     // console.log(tx);
     if (tx.transaction.actions[0].FunctionCall !== undefined){
-        return (<FunctionCall transaction={tx} />);
+        return (<FunctionCall transaction={tx} timestamp={timestamp}/>);
     }
 
     if (tx.transaction.actions[0].Transfer !== undefined) {
-        return (<Transfer transaction={tx} />);
+        return (<Transfer transaction={tx} timestamp={timestamp}/>);
     }
 
     // For some reason, when it's CreateAccount, the value is a String.
     if (tx.transaction.actions[0] === "CreateAccount") {
-        return (<CreateAccount transaction={tx} />);
+        return (<CreateAccount transaction={tx} timestamp={timestamp}/>);
     }
 
     if (tx.transaction.actions[0].AddKey !== undefined) {
-        return (<AddKey transaction={tx}  />);
+        return (<AddKey transaction={tx}  timestamp={timestamp}/>);
     }
 
     return (<ErrorTransaction />);

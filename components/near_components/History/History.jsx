@@ -25,9 +25,17 @@ export default function History(props){
     async function load(){
         let transaction_list = await get_transactions(accountId);
         // transaction_list = transaction_list.transactions.map(value => value.transaction_hash);
+        console.log("Transaction List");
         console.log(transaction_list);
 
-        let values = transaction_list.transactions.map((tx) => { return get_transaction_from_hash(tx.transaction_hash, accountId)});
+        let values = transaction_list.transactions.map((tx) => {
+            return (
+                {
+                    transaction: get_transaction_from_hash(tx.transaction_hash, accountId),
+                    timestamp: tx.block_timestamp
+                }
+            )}
+        );
 
         setTransactions((_) => {
             return {
@@ -50,7 +58,11 @@ export default function History(props){
     }
 
     return (
-        <div>
+        <div className='flex flex-col items-stretch
+            justify-center w-full
+            h-auto bg-gray-100
+            py-2'
+        >
             {/* <button onClick={testing}>testing</button> */}
             {render_transactions}
         </div>

@@ -24,6 +24,9 @@ export default function Transfer(props){
     console.log("Transfer called");
     console.log(tx);
 
+
+    const hash = tx.transaction.hash;
+
     if (props.batch){
 
         if (props.transaction === undefined) {
@@ -46,8 +49,11 @@ export default function Transfer(props){
         console.log("Single transaction undefined");
         return (<Single/>);
     }
+    
+    const signer = tx.transaction.signer_id;
+    const receiver = tx.transaction.receiver_id;
 
-    const action = (<TopLeft default={true}>Transfer</TopLeft>);
+    
 
     // deposit is in yoctoNEAR
     console.log(tx);
@@ -62,16 +68,19 @@ export default function Transfer(props){
         deposit_string += deposit + " Yocto NEAR";
     }
 
-    const transfer = (<TopRight default={true}>{deposit_string}</TopRight>);
-    const detail = undefined;
-    const target = (<BottomRight default={true}>{tx.transaction.receiver_id}</BottomRight>)
+    
+
+    const topLeft = (<TopLeft default={true}>Transferred {deposit_string} to {receiver}</TopLeft>);
+    const topRight = (<TopRight hash={hash}/>);
+    const bottomLeft = <BottomLeft signer={signer}/>;
+    const bottomRight = (<BottomRight timestamp={props.timestamp}/>);
 
     return (
         <Single
-            action={action}
-            transfer={transfer}
-            detail={detail}
-            target={target}
+            topLeft={topLeft}
+            topRight={topRight}
+            bottomLeft={bottomLeft}
+            bottomRight={bottomRight}
         />
     );
 }

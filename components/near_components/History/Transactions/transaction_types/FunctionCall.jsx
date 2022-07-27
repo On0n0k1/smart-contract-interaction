@@ -16,6 +16,8 @@ export default function FunctionCall(props){
     console.log("FunctionCall called");
     console.log(tx);
 
+    const hash = tx.transaction.hash;
+
     if (props.batch){
 
         if (props.transaction === undefined) {
@@ -39,18 +41,23 @@ export default function FunctionCall(props){
         return (<Single/>);
     }
 
+    const signer = tx.transaction.signer_id;
 
-    const action = (<TopLeft default={true}>Function Call</TopLeft>);
-    const transfer = undefined;
-    const detail = undefined;
-    const target = (<BottomRight default={true}>{tx.transaction.receiver_id}</BottomRight>)
+    const method_name = tx.transaction.actions[0].FunctionCall.method_name;
+    const target_account = tx.transaction.receiver_id;
+
+
+    const topLeft = (<TopLeft default={true}>Called method {method_name} for account {target_account}</TopLeft>);
+    const topRight = (<TopRight hash={hash}/>);
+    const bottomLeft = <BottomLeft signer={signer}/>;
+    const bottomRight = (<BottomRight timestamp={props.timestamp}/>);
 
     return (
         <Single
-            action={action}
-            transfer={transfer}
-            detail={detail}
-            target={target}
+            topLeft={topLeft}
+            topRight={topRight}
+            bottomLeft={bottomLeft}
+            bottomRight={bottomRight}
         />
     );
 }

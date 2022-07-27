@@ -32,9 +32,40 @@ export default async (req, res) => {
         //             LIMIT 100 OFFSET 0
         //         );
         // `;
+        // const query = {
+        //     text: `
+        //         SELECT
+        //             (transaction_hash, block_timestamp)
+        //         FROM
+        //             transactions
+        //         WHERE
+        //             signer_account_id = '${req.query.accountId}'
+        //         ORDER BY
+        //             block_timestamp DESC
+        //         LIMIT 10 OFFSET 0
+        //     `,
+        //     rowMode: 'array'
+        // };
+
+        // const query = `
+        //     SELECT
+        //         transaction_hash,
+        //         block_timestamp AS timestamp
+        //     FROM
+        //         transactions
+        //     WHERE
+        //         signer_account_id = '${req.query.accountId}'
+        //     ORDER BY
+        //         block_timestamp DESC
+        //     LIMIT 10 OFFSET 0
+        // `;
+
+        // https://github.com/near/near-indexer-for-explorer/blob/master/docs/near-indexer-for-explorer-db.png
+        // More info about the database above.
+
         const query = `
             SELECT
-                transaction_hash
+                *
             FROM
                 transactions
             WHERE
@@ -46,6 +77,8 @@ export default async (req, res) => {
 
         // Make the query and return the result.
         const data = await conn.query(query);
+        // console.log("Data is");
+        // console.log(data);
 
         // The acquired values.
         const result = data.rows;
