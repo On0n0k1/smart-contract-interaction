@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "docker-build": "docker build -t nextjs-docker .",
+    "docker-run": "docker run -p 3000:3000 nextjs-docker",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
